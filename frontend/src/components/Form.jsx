@@ -55,8 +55,10 @@ export const Form = ({ data, setData, updateDataApi, setUpdateDataApi }) => {
     const action = e.nativeEvent.submitter.value;
     if (action === "Add") {
       addPostData();
+      console.log(addPostData());
     } else if (action === "Edit") {
       updatePostData();
+
     }
   };
 
