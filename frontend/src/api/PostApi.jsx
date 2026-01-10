@@ -2,7 +2,7 @@ import axios from "axios";
 
 
 const api = axios.create({
-  baseURL: "https://blog-jyn9.onrender.com",
+  baseURL: "https://blog-jyn9.onrender.com/api",
 });
 
 //get method
