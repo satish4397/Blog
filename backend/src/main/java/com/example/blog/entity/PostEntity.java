@@ -8,7 +8,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 
 @Data
-@Document(collection = "post")
+@Document(collection = "posts")
 public class PostEntity {
 
     @Id
