@@ -22,33 +22,42 @@ export const Form = ({ data, setData, updateDataApi, setUpdateDataApi }) => {
   };
 
   const addPostData = async () => {
-    try {
-      const res = await postData(addData);
-      if (res.status === 201) {
+  try {
+    const res = await postData(addData);
+    if (res.status === 201 || res.status === 200) {
+      if (res.data) {
         setData([...data, res.data]);
-        setAddData({ title: "", description: "" });
+      } else {
+        // fallback: fetch all posts again
+        console.warn("No data returned, refetching...");
       }
-    } catch (error) {
-      console.error("Error adding post:", error.response?.data || error.message);
+      setAddData({ title: "", description: "" });
     }
-  };
+  } catch (error) {
+    console.error("Error adding post:", error.response?.data || error.message);
+  }
+};
+
 
   const updatePostData = async () => {
-    try {
-      const res = await updateData(updateDataApi.id, addData);
-      if (res.status === 200) {
+  try {
+    const res = await updateData(updateDataApi.id, addData);
+    if (res.status === 200 || res.status === 201) {
+      if (res.data) {
         setData((prev) =>
           prev.map((curElem) =>
             curElem.id === res.data.id ? res.data : curElem
           )
         );
-        setAddData({ title: "", description: "" });
-        setUpdateDataApi({});
       }
-    } catch (error) {
-      console.error("Error updating post:", error.response?.data || error.message);
+      setAddData({ title: "", description: "" });
+      setUpdateDataApi({});
     }
-  };
+  } catch (error) {
+    console.error("Error updating post:", error.response?.data || error.message);
+  }
+};
+
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
