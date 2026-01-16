@@ -1,27 +1,24 @@
 import axios from "axios";
 
-
+// Use environment variable or fallback
 const api = axios.create({
-  baseURL: "https://blog-jyn9.onrender.com/api",
+  baseURL: process.env.REACT_APP_API_URL || "https://blog-1-rs3h.onrender.com/api",
 });
 
-//get method
-export const getPost = () => {
-    return api.get("/posts");
-};
+// GET all posts
+export const getPost = () => api.get("/posts");
 
-//delete method
-export const deletePost = (id) => {
-  return api.delete(`/posts/${id}`);
-}
+// DELETE post by id
+export const deletePost = (id) => api.delete(`/posts/${id}`);
 
-//post method
+// POST new post
+export const postData = (post) =>
+  api.post("/posts", post, {
+    headers: { "Content-Type": "application/json" },
+  });
 
-export const postData = (post) => {
-  return api.post("/posts", post);
-};
-
-//update method
-export const updateData = (id, post) => {
-  return api.put(`/posts/${id}`, post);
-};
+// PUT update post
+export const updateData = (id, post) =>
+  api.put(`/posts/${id}`, post, {
+    headers: { "Content-Type": "application/json" },
+  });

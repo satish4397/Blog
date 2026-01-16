@@ -2,48 +2,37 @@ package com.example.blog.service;
 
 import com.example.blog.entity.PostEntity;
 import com.example.blog.repository.PostRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class PostService {
+    private final PostRepository postRepository;
 
-    @Autowired
-    private PostRepository postRepository;
+    public PostService(PostRepository postRepository) {
+        this.postRepository = postRepository;
+    }
+
+    public List<PostEntity> getAll() {
+        return postRepository.findAll();
+    }
 
     public PostEntity create(PostEntity post) {
         return postRepository.save(post);
     }
 
-    public List<PostEntity> getAllPost() {
-        return postRepository.findAll();
+    public PostEntity update(String id, PostEntity post) {
+        return postRepository.findById(id)
+                .map(existing -> {
+                    existing.setTitle(post.getTitle());
+                    existing.setDescription(post.getDescription());
+                    return postRepository.save(existing);
+                })
+                .orElseThrow(() -> new RuntimeException("Post not found"));
     }
 
-    public PostEntity getSinglePost(String id) {
-        return postRepository.findById(id).orElse(null);
-    }
-
-    public boolean delete(String id) {
-        if (postRepository.existsById(id)) {
-            postRepository.deleteById(id);
-            return true;
-        }
-        return false;
-    }
-
-
-
-    public PostEntity update(String id, PostEntity newPost){
-        PostEntity oldPost = postRepository.findById(id).orElse(null);
-
-        if(oldPost != null){
-            oldPost.setTitle(newPost.getTitle() != null && !newPost.getTitle().isEmpty() ? newPost.getTitle() : oldPost.getTitle());
-            oldPost.setDescription(newPost.getDescription() != null && newPost.getDescription().isEmpty() ? newPost.getDescription() : oldPost.getDescription());
-            newPost.setId(id);
-            postRepository.save(newPost);
-        }
-        return newPost;
+    public void delete(String id) {
+        postRepository.deleteById(id);
     }
 }
