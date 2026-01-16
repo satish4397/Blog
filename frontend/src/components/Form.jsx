@@ -3,10 +3,8 @@ import { postData, updateData } from "../api/PostApi";
 
 export const Form = ({ data, setData, updateDataApi, setUpdateDataApi }) => {
   const [addData, setAddData] = useState({ title: "", description: "" });
-
   const isEmpty = Object.keys(updateDataApi).length === 0;
 
-  // prefill form when editing
   useEffect(() => {
     if (!isEmpty) {
       setAddData({
@@ -29,7 +27,7 @@ export const Form = ({ data, setData, updateDataApi, setUpdateDataApi }) => {
         setAddData({ title: "", description: "" });
       }
     } catch (error) {
-      console.error("Error adding post:", error);
+      console.error("Error adding post:", error.response?.data || error.message);
     }
   };
 
@@ -46,7 +44,7 @@ export const Form = ({ data, setData, updateDataApi, setUpdateDataApi }) => {
         setUpdateDataApi({});
       }
     } catch (error) {
-      console.error("Error updating post:", error);
+      console.error("Error updating post:", error.response?.data || error.message);
     }
   };
 
@@ -55,39 +53,29 @@ export const Form = ({ data, setData, updateDataApi, setUpdateDataApi }) => {
     const action = e.nativeEvent.submitter.value;
     if (action === "Add") {
       addPostData();
-      console.log(addPostData());
     } else if (action === "Edit") {
       updatePostData();
-
     }
   };
 
   return (
     <form onSubmit={handleFormSubmit}>
-      <div>
-        <input
-          type="text"
-          autoComplete="off"
-          id="title"
-          name="title"
-          placeholder="Add Title"
-          value={addData.title}
-          onChange={handleInputChange}
-        />
-      </div>
-
-      <div>
-        <input
-          type="text"
-          autoComplete="off"
-          id="description"
-          name="description"
-          placeholder="Add Description"
-          value={addData.description}
-          onChange={handleInputChange}
-        />
-      </div>
-
+      <input
+        type="text"
+        name="title"
+        placeholder="Add Title"
+        value={addData.title}
+        onChange={handleInputChange}
+        required
+      />
+      <input
+        type="text"
+        name="description"
+        placeholder="Add Description"
+        value={addData.description}
+        onChange={handleInputChange}
+        required
+      />
       <button type="submit" value={isEmpty ? "Add" : "Edit"}>
         {isEmpty ? "Add" : "Edit"}
       </button>
