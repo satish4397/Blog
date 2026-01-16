@@ -3,7 +3,9 @@ import { postData, updateData } from "../api/PostApi";
 
 export const Form = ({ data, setData, updateDataApi, setUpdateDataApi }) => {
   const [addData, setAddData] = useState({ title: "", description: "" });
+
   const isEmpty = Object.keys(updateDataApi).length === 0;
+
 
   useEffect(() => {
     if (!isEmpty) {
@@ -60,22 +62,32 @@ export const Form = ({ data, setData, updateDataApi, setUpdateDataApi }) => {
 
   return (
     <form onSubmit={handleFormSubmit}>
-      <input
-        type="text"
-        name="title"
-        placeholder="Add Title"
-        value={addData.title}
-        onChange={handleInputChange}
-        required
-      />
-      <input
-        type="text"
-        name="description"
-        placeholder="Add Description"
-        value={addData.description}
-        onChange={handleInputChange}
-        required
-      />
+      <div>
+        <input
+          type="text"
+          autoComplete="off"
+          id="title"
+          name="title"
+          placeholder="Add Title"
+          value={addData.title}
+          onChange={handleInputChange}
+          required
+        />
+      </div>
+
+      <div>
+        <input
+          type="text"
+          autoComplete="off"
+          id="description"
+          name="description"
+          placeholder="Add Description"
+          value={addData.description}
+          onChange={handleInputChange}
+          required
+        />
+      </div>
+
       <button type="submit" value={isEmpty ? "Add" : "Edit"}>
         {isEmpty ? "Add" : "Edit"}
       </button>
