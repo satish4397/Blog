@@ -23,16 +23,17 @@ public class PostController {
     }
 
     @PostMapping
-    public ResponseEntity<PostEntity> createPost(@RequestBody PostEntity post) {
-        PostEntity createdPost = postService.create(post);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdPost);
-    }
+public ResponseEntity<PostEntity> createPost(@RequestBody PostEntity post) {
+    PostEntity createdPost = postService.create(post);
+    return ResponseEntity.status(HttpStatus.CREATED).body(createdPost);
+}
 
-    @PutMapping("/{id}")
-    public ResponseEntity<PostEntity> updatePost(@PathVariable String id, @RequestBody PostEntity post) {
-        PostEntity updatedPost = postService.update(id, post);
-        return ResponseEntity.ok(updatedPost);
-    }
+@PutMapping("/{id}")
+public ResponseEntity<PostEntity> updatePost(@PathVariable String id, @RequestBody PostEntity post) {
+    PostEntity updatedPost = postService.update(id, post);
+    return ResponseEntity.ok(updatedPost);
+}
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletePost(@PathVariable String id) {
